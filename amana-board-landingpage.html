@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amana Board — Eine verlässliche Quelle für jedes geförderte Kind</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a1220;
+    --panel:#101c2e;
+    --panel-2:#0d1a29;
+    --hair:rgba(255,255,255,0.09);
+    --hair-strong:rgba(255,255,255,0.16);
+    --teal:#1b7a54;
+    --mint:#3fd9a6;
+    --amber:#e8a855;
+    --text:#eaf2ee;
+    --muted:#93a6a3;
+    --muted-2:#6c7d7a;
+    --radius:14px;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--text);
+    font-family:'IBM Plex Sans', system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Spectral', Georgia, serif;
+    font-weight:600;
+    line-height:1.15;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  .mono{
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+  }
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+  section{position:relative;}
+
+  /* language toggle logic */
+  .i18n-en{display:none;}
+  html.lang-en .i18n-en{display:inline;}
+  html.lang-en .i18n-de{display:none;}
+  html.lang-en .i18n-en.block{display:block;}
+  .i18n-en.block{display:none;}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,18,32,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--hair);
+  }
+  .header-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 0;
+  }
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none;}
+  .brand-name{font-family:'Spectral',serif; font-weight:600; font-size:19px; color:var(--text);}
+  nav.primary-nav{display:flex; align-items:center; gap:28px;}
+  nav.primary-nav a{
+    font-size:14.5px; color:var(--muted); text-decoration:none;
+    transition:color .15s ease;
+  }
+  nav.primary-nav a:hover{color:var(--text);}
+  .header-actions{display:flex; align-items:center; gap:18px;}
+  .lang-toggle{
+    display:flex; border:1px solid var(--hair-strong); border-radius:999px; overflow:hidden;
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+  }
+  .lang-toggle button{
+    background:none; border:none; color:var(--muted); cursor:pointer;
+    padding:6px 12px; font-family:inherit; font-size:inherit; letter-spacing:0.05em;
+  }
+  .lang-toggle button.active{background:var(--teal); color:#eafff4;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:11px 20px; border-radius:999px; text-decoration:none;
+    font-size:14.5px; font-weight:500; border:1px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+    cursor:pointer;
+  }
+  .btn-primary{background:linear-gradient(135deg,var(--mint),var(--teal)); color:#04140d;}
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 10px 24px -8px rgba(63,217,166,0.45);}
+  .btn-ghost{border-color:var(--hair-strong); color:var(--text); background:transparent;}
+  .btn-ghost:hover{border-color:var(--mint); color:var(--mint);}
+  .btn:focus-visible{outline:2px solid var(--mint); outline-offset:2px;}
+
+  @media (max-width: 860px){
+    nav.primary-nav{display:none;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:96px 0 84px;
+    overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute; inset:0; z-index:0; opacity:0.55;
+    -webkit-mask-image:linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+            mask-image:linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+  }
+  .hero-inner{position:relative; z-index:1; max-width:760px;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:11.5px; color:var(--mint); margin-bottom:22px;
+  }
+  .eyebrow::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--mint); box-shadow:0 0 0 4px rgba(63,217,166,0.18);}
+  .hero h1{font-size:clamp(34px, 5vw, 54px); max-width:15ch;}
+  .hero p.sub{
+    margin-top:22px; font-size:18px; color:var(--muted); max-width:52ch;
+  }
+  .hero-ctas{display:flex; gap:14px; margin-top:34px; flex-wrap:wrap;}
+  .stat-row{
+    display:flex; gap:36px; margin-top:56px; flex-wrap:wrap;
+    padding-top:28px; border-top:1px solid var(--hair);
+  }
+  .stat-row .stat{font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--muted-2);}
+  .stat-row .stat b{display:block; font-size:15px; color:var(--text); font-weight:500; margin-bottom:2px;}
+
+  /* ---------- section shell ---------- */
+  .band{padding:88px 0;}
+  .band-alt{background:var(--panel-2); border-top:1px solid var(--hair); border-bottom:1px solid var(--hair);}
+  .band-head{max-width:640px; margin-bottom:52px;}
+  .band-head .eyebrow{color:var(--muted); }
+  .band-head .eyebrow::before{background:var(--muted-2); box-shadow:none;}
+  .band-head h2{font-size:clamp(26px,3.2vw,36px); margin-top:14px;}
+  .band-head p{color:var(--muted); margin-top:16px; font-size:16.5px; max-width:58ch;}
+
+  /* ---------- context band ---------- */
+  .context-grid{display:grid; grid-template-columns:1fr; gap:0;}
+
+  /* ---------- feature clusters ---------- */
+  .cluster{margin-bottom:56px;}
+  .cluster:last-child{margin-bottom:0;}
+  .cluster-label{
+    font-size:12px; color:var(--mint); margin-bottom:18px; display:block;
+  }
+  .cluster-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
+  }
+  @media (max-width:900px){ .cluster-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:620px){ .cluster-grid{grid-template-columns:1fr;} }
+  .card{
+    background:var(--panel); border:1px solid var(--hair);
+    border-radius:var(--radius); padding:24px 22px;
+    opacity:0; transform:translateY(14px);
+    transition:opacity .5s ease, transform .5s ease, border-color .2s ease;
+  }
+  .card.visible{opacity:1; transform:translateY(0);}
+  .card:hover{border-color:var(--hair-strong);}
+  .card .icon{
+    width:34px; height:34px; margin-bottom:16px;
+    color:var(--mint);
+  }
+  .card h3{font-size:17px; font-weight:600; margin-bottom:8px; color:var(--text);}
+  .card p{margin:0; font-size:14.5px; color:var(--muted); line-height:1.55;}
+
+  /* ---------- trust band ---------- */
+  .trust-grid{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--hair);
+    border:1px solid var(--hair);
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  @media (max-width:900px){ .trust-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:560px){ .trust-grid{grid-template-columns:1fr;} }
+  .trust-item{
+    background:var(--ink); padding:26px 22px;
+  }
+  .trust-item .icon{width:26px; height:26px; color:var(--amber); margin-bottom:14px;}
+  .trust-item h3{font-size:15.5px; font-weight:600; margin-bottom:6px;}
+  .trust-item p{margin:0; font-size:13.5px; color:var(--muted);}
+
+  /* ---------- roadmap ---------- */
+  .roadmap-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  @media (max-width:900px){ .roadmap-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:620px){ .roadmap-grid{grid-template-columns:1fr;} }
+  .road-card{
+    border:1px dashed var(--hair-strong); border-radius:var(--radius);
+    padding:22px 20px; background:rgba(232,168,85,0.04);
+    opacity:0; transform:translateY(14px);
+    transition:opacity .5s ease, transform .5s ease;
+  }
+  .road-card.visible{opacity:1; transform:translateY(0);}
+  .road-tag{
+    display:inline-block; font-size:10.5px; color:var(--amber);
+    border:1px solid rgba(232,168,85,0.4); border-radius:999px;
+    padding:3px 10px; margin-bottom:14px;
+  }
+  .road-card h3{font-size:15.5px; font-weight:600; margin-bottom:8px;}
+  .road-card p{margin:0; font-size:13.5px; color:var(--muted);}
+
+  /* ---------- divider (signature contour) ---------- */
+  .contour-divider{display:block; width:100%; height:64px; color:var(--hair-strong);}
+
+  /* ---------- footer / CTA ---------- */
+  .cta-band{
+    padding:96px 0 80px; text-align:center;
+  }
+  .cta-band h2{font-size:clamp(26px,3.6vw,38px); max-width:20ch; margin:0 auto;}
+  .cta-band p{color:var(--muted); margin:18px auto 0; max-width:48ch; font-size:16px;}
+  .cta-band .hero-ctas{justify-content:center; margin-top:32px;}
+  footer{
+    border-top:1px solid var(--hair); padding:32px 0; 
+  }
+  .footer-row{
+    display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+    font-size:13px; color:var(--muted-2);
+  }
+
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.visible{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<!-- decorative topographic contour icon, reused as divider -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="contour" viewBox="0 0 400 64">
+      <path d="M0 40 Q 50 10, 100 40 T 200 40 T 300 40 T 400 40" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+      <path d="M0 52 Q 60 26, 120 52 T 240 52 T 400 52" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap header-row">
+    <a href="#top" class="brand">
+      <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
+        <path d="M20 4 L34 32 H6 Z" fill="url(#logoGrad)"/>
+        <path d="M20 15 L27 32 H13 Z" fill="#0a1220" opacity="0.35"/>
+        <defs>
+          <linearGradient id="logoGrad" x1="6" y1="32" x2="34" y2="4" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#1b7a54"/>
+            <stop offset="1" stop-color="#3fd9a6"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="brand-name">Amana Board</span>
+    </a>
+    <nav class="primary-nav">
+      <a href="#funktionen"><span class="i18n-de">Funktionen</span><span class="i18n-en">Features</span></a>
+      <a href="#vertrauen"><span class="i18n-de">Vertrauen &amp; Sicherheit</span><span class="i18n-en">Trust &amp; security</span></a>
+      <a href="#roadmap"><span class="i18n-de">Roadmap</span><span class="i18n-en">Roadmap</span></a>
+      <a href="#kontakt"><span class="i18n-de">Kontakt</span><span class="i18n-en">Contact</span></a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" data-lang="de" class="active">DE</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <a href="#kontakt" class="btn btn-primary">
+        <span class="i18n-de">Zugang anfragen</span><span class="i18n-en">Request access</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <svg class="hero-bg" viewBox="0 0 1200 500" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M-50 380 Q 150 300, 300 380 T 650 380 T 1000 380 T 1350 380" fill="none" stroke="#1b7a54" stroke-width="1.2" opacity="0.5"/>
+      <path d="M-50 320 Q 180 220, 360 320 T 720 320 T 1080 320 T 1440 320" fill="none" stroke="#1b7a54" stroke-width="1.2" opacity="0.35"/>
+      <path d="M-50 430 Q 130 380, 280 430 T 580 430 T 880 430 T 1180 430" fill="none" stroke="#3fd9a6" stroke-width="1.2" opacity="0.3"/>
+      <path d="M-50 250 Q 220 130, 440 250 T 880 250 T 1320 250" fill="none" stroke="#3fd9a6" stroke-width="1" opacity="0.2"/>
+    </svg>
+    <div class="wrap hero-inner">
+      <div class="eyebrow mono">
+        <span class="i18n-de">Patenschaftsmanagement · Digitalisierung im Ehrenamt</span>
+        <span class="i18n-en">Sponsorship management · Digitalizing volunteer work</span>
+      </div>
+      <h1>
+        <span class="i18n-de">Eine verlässliche Quelle für jedes geförderte Kind.</span>
+        <span class="i18n-en">One reliable source for every sponsored child.</span>
+      </h1>
+      <p class="sub">
+        <span class="i18n-de">Amana Board ersetzt Tabellen und Aktenordner durch einen sicheren, mehrsprachigen Arbeitsbereich für Patenschaftsorganisationen — vom Hauptbüro bis ins Feld.</span>
+        <span class="i18n-en">Amana Board replaces spreadsheets and paper files with a secure, multilingual workspace for sponsorship organizations — from head office to the field.</span>
+      </p>
+      <div class="hero-ctas">
+        <a href="#kontakt" class="btn btn-primary">
+          <span class="i18n-de">Zugang anfragen</span><span class="i18n-en">Request access</span>
+        </a>
+        <a href="#funktionen" class="btn btn-ghost">
+          <span class="i18n-de">Funktionen ansehen</span><span class="i18n-en">See what it does</span>
+        </a>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><b>4</b><span class="i18n-de">Rollen, klar begrenzt</span><span class="i18n-en">roles, clearly scoped</span></div>
+        <div class="stat"><b><span class="i18n-de">2 Sprachen</span><span class="i18n-en">2 languages</span></b><span class="i18n-de">Deutsch &amp; Englisch, jede Schrift im Profil</span><span class="i18n-en">German &amp; English, any script in profiles</span></div>
+        <div class="stat"><b><span class="i18n-de">1 Plattform</span><span class="i18n-en">1 platform</span></b><span class="i18n-de">viele Organisationen, streng getrennte Daten</span><span class="i18n-en">many organizations, strictly separated data</span></div>
+      </div>
+    </div>
+  </section>
+
+  <svg class="contour-divider wrap"><use href="#contour"/></svg>
+
+  <!-- CONTEXT -->
+  <section class="band">
+    <div class="wrap">
+      <div class="band-head reveal">
+        <div class="eyebrow mono">
+          <span class="i18n-de">Warum Amana Board</span><span class="i18n-en">Why Amana Board</span>
+        </div>
+        <h2>
+          <span class="i18n-de">Ehrenamtliche Arbeit verdient professionelle Werkzeuge.</span>
+          <span class="i18n-en">Volunteer work deserves professional tools.</span>
+        </h2>
+        <p>
+          <span class="i18n-de">Viele Patenschaftsorganisationen verwalten Kinderprofile, Zahlungen und Kontakt zu Paten heute noch über verstreute Tabellen, E-Mails und Aktenordner. Amana Board bringt das an einen Ort — nutzbar von der ersten Freiwilligen bis zum wachsenden Team, ohne eigene IT-Abteilung.</span>
+          <span class="i18n-en">Many sponsorship organizations still manage child profiles, payments and sponsor contact across scattered spreadsheets, emails and paper files. Amana Board brings it all into one place — usable from the first volunteer to a growing team, without an in-house IT department.</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="band band-alt" id="funktionen">
+    <div class="wrap">
+      <div class="band-head reveal">
+        <div class="eyebrow mono"><span class="i18n-de">Funktionen</span><span class="i18n-en">Features</span></div>
+        <h2><span class="i18n-de">Alles, was ein Patenschaftsprogramm täglich braucht.</span><span class="i18n-en">Everything a sponsorship program needs, day to day.</span></h2>
+      </div>
+
+      <div class="cluster">
+        <span class="cluster-label mono"><span class="i18n-de">Kinderverwaltung</span><span class="i18n-en">Child records</span></span>
+        <div class="cluster-grid">
+          <div class="card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
+            <h3><span class="i18n-de">Mehrsprachige Profile</span><span class="i18n-en">Multilingual profiles</span></h3>
+            <p><span class="i18n-de">Identität, Schule, Familie und Notizen in jeder Sprache und Schrift — mit klarer Anzeige, was noch fehlt.</span><span class="i18n-en">Identity, school, family and notes in any language or script — with a clear view of what's still missing.</span></p>
+          </div>
+          <div class="card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/></svg>
+            <h3><span class="i18n-de">Feldtaugliche Fotos &amp; Videos</span><span class="i18n-en">Field-ready photos &amp; videos</span></h3>
+            <p><span class="i18n-de">Automatische Komprimierung direkt im Browser, Freigabe für Paten einzeln steuerbar.</span><span class="i18n-en">Automatic in-browser compression, with per-item release control for sponsors.</span></p>
+          </div>
+          <div class="card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v10"/><circle cx="12" cy="17" r="3.2"/></svg>
+            <h3><span class="i18n-de">Dringlichkeit auf einen Blick</span><span class="i18n-en">Urgency at a glance</span></h3>
+            <p><span class="i18n-de">Fünf Stufen, direkt aus der Liste setzbar, bestimmen die Priorisierung im Alltag.</span><span class="i18n-en">Five levels, settable straight from the list, drive everyday prioritization.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cluster">
+        <span class="cluster-label mono"><span class="i18n-de">Patenschaften &amp; Finanzen</span><span class="i18n-en">Sponsorships &amp; finance</span></span>
+        <div class="cluster-grid">
+          <div class="card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h16M4 12l4-4M4 12l4 4M20 12l-4-4M20 12l-4 4"/></svg>
+            <h3><span class="i18n-de">Volle Historie, keine Lücken</span><span class="i18n-en">Full history, no gaps</span></h3>
+            <p><span class="i18n-de">Mehrere Paten pro Kind, lückenlos seit/bis nachvollziehbar — auch Jahre später.</span><span class="i18n-en">Multiple sponsors per child, fully traceable since/until — even years later.</span></p>
+          </div>
+          <div class="card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg>
+            <h3><span class="i18n-de">Fälligkeiten erkennt das System</span><span class="i18n-en">The system tracks due dates</span></h3>
+            <p><span class="i18n-de">Zahlungszusagen mit Rhythmus; überfällige Zusagen werden automatisch erkannt, nicht manuell nachgehalten.</span><span class="i18n-en">Pledges with a rhythm; overdue pledges are detected automatically, not tracked by hand.</span></p>
+          </div>
+          <div class="card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v16"/></svg>
+            <h3><span class="i18n-de">Auszahlungen bis ins Feld</span><span class="i18n-en">Payouts, all the way to the field</span></h3>
+            <p><span class="i18n-de">Mehrwährungsfähige Quartalspläne mit Beleg-Pipeline und Soll-Ist-Abgleich — bis zur Übergabe vor Ort.</span><span class="i18n-en">Multi-currency quarterly plans with a receipt pipeline and expected-vs-actual tracking — right through to handover.</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cluster">
+        <span class="cluster-label mono"><span class="i18n-de">Vertrauen &amp; Zusammenarbeit</span><span class="i18n-en">Trust &amp; collaboration</span></span>
+        <div class="cluster-grid">
+          <div class="card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/></svg>
+            <h3><span class="i18n-de">Paten-Portal mit klarer Sicht</span><span class="i18n-en">A sponsor portal with a clear view</span></h3>
+            <p><span class="i18n-de">Sponsoren sehen genau das, was die Organisation freigibt — nicht mehr, nicht weniger.</span><span class="i18n-en">Sponsors see exactly what the organization releases — nothing more, nothing less.</span></p>
+          </div>
+          <div class="card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></svg>
+            <h3><span class="i18n-de">Eine Plattform, getrennte Daten</span><span class="i18n-en">One platform, separated data</span></h3>
+            <p><span class="i18n-de">Mandantenfähig, mit auf Datenbankebene erzwungener Trennung pro Organisation.</span><span class="i18n-en">Multi-tenant, with per-organization separation enforced at the database level.</span></p>
+          </div>
+          <div class="card">
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 5h16v11H9l-5 4z"/></svg>
+            <h3><span class="i18n-de">Alle Nachrichten an einem Ort</span><span class="i18n-en">Every message, one place</span></h3>
+            <p><span class="i18n-de">Team-Chat und Sponsor-Kommunikation in Echtzeit, mit Lesebestätigung.</span><span class="i18n-en">Team chat and sponsor communication in real time, with read receipts.</span></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="band" id="vertrauen">
+    <div class="wrap">
+      <div class="band-head reveal">
+        <div class="eyebrow mono"><span class="i18n-de">Vertrauen &amp; Sicherheit</span><span class="i18n-en">Trust &amp; security</span></div>
+        <h2><span class="i18n-de">Für Daten, bei denen es darauf ankommt.</span><span class="i18n-en">For data where it matters.</span></h2>
+        <p><span class="i18n-de">Amana Board verwaltet Daten von Kindern in teils fragilen Kontexten. Das prägt jede technische Entscheidung.</span><span class="i18n-en">Amana Board handles data about children in sometimes fragile contexts. That shapes every technical decision.</span></p>
+      </div>
+      <div class="trust-grid reveal">
+        <div class="trust-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg>
+          <h3><span class="i18n-de">DSGVO-Werkzeuge</span><span class="i18n-en">GDPR tooling</span></h3>
+          <p><span class="i18n-de">Vollständiger Datenexport und Löschung inklusive Audit-Spuren.</span><span class="i18n-en">Full data export and erasure, including audit traces.</span></p>
+        </div>
+        <div class="trust-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.2 4.5 5 .7-3.6 3.5.8 5-4.4-2.3-4.4 2.3.8-5-3.6-3.5 5-.7z"/></svg>
+          <h3><span class="i18n-de">Signierte Medien-URLs</span><span class="i18n-en">Signed media URLs</span></h3>
+          <p><span class="i18n-de">Fotos und Videos sind nie über offene Links erreichbar.</span><span class="i18n-en">Photos and videos are never reachable via open links.</span></p>
+        </div>
+        <div class="trust-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg>
+          <h3><span class="i18n-de">Vier Rollen, klar begrenzt</span><span class="i18n-en">Four roles, clearly scoped</span></h3>
+          <p><span class="i18n-de">Jede Rolle sieht genau das, was sie für ihre Aufgabe braucht.</span><span class="i18n-en">Each role sees exactly what its task requires.</span></p>
+        </div>
+        <div class="trust-item">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h16M10 4v16"/></svg>
+          <h3><span class="i18n-de">Row-Level Security</span><span class="i18n-en">Row-level security</span></h3>
+          <p><span class="i18n-de">Datentrennung pro Organisation, erzwungen auf Datenbankebene.</span><span class="i18n-en">Per-organization data isolation, enforced at the database level.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <svg class="contour-divider wrap"><use href="#contour"/></svg>
+
+  <!-- ROADMAP -->
+  <section class="band band-alt" id="roadmap">
+    <div class="wrap">
+      <div class="band-head reveal">
+        <div class="eyebrow mono"><span class="i18n-de">In Entwicklung</span><span class="i18n-en">In development</span></div>
+        <h2><span class="i18n-de">Was als Nächstes kommt.</span><span class="i18n-en">What's coming next.</span></h2>
+        <p><span class="i18n-de">Amana Board wird laufend gemeinsam mit den Organisationen weiterentwickelt, die es täglich nutzen.</span><span class="i18n-en">Amana Board is developed continuously together with the organizations that use it every day.</span></p>
+      </div>
+      <div class="roadmap-grid">
+        <div class="road-card">
+          <span class="road-tag mono"><span class="i18n-de">Geplant</span><span class="i18n-en">Planned</span></span>
+          <h3><span class="i18n-de">Chronologische Timeline pro Kind</span><span class="i18n-en">Chronological timeline per child</span></h3>
+          <p><span class="i18n-de">Spenden, Auszahlungen, Dokumente und Kommentare an einem Ort, statt über mehrere Tabs verteilt.</span><span class="i18n-en">Donations, payouts, documents and comments in one place instead of spread across tabs.</span></p>
+        </div>
+        <div class="road-card">
+          <span class="road-tag mono"><span class="i18n-de">Geplant</span><span class="i18n-en">Planned</span></span>
+          <h3><span class="i18n-de">Persönliche Aufgabenliste</span><span class="i18n-en">Personal task list</span></h3>
+          <p><span class="i18n-de">Jede Person sieht sofort, was bei den eigenen zugewiesenen Kindern noch offen ist.</span><span class="i18n-en">Everyone sees at a glance what's still open for their own assigned children.</span></p>
+        </div>
+        <div class="road-card">
+          <span class="road-tag mono"><span class="i18n-de">Geplant</span><span class="i18n-en">Planned</span></span>
+          <h3><span class="i18n-de">Automatische Zuwendungsbestätigungen</span><span class="i18n-en">Automatic donation receipts</span></h3>
+          <p><span class="i18n-de">Direkt aus den erfassten Patenschaftsdaten generiert, statt von Hand erstellt.</span><span class="i18n-en">Generated directly from recorded sponsorship data instead of by hand.</span></p>
+        </div>
+        <div class="road-card">
+          <span class="road-tag mono"><span class="i18n-de">Geplant</span><span class="i18n-en">Planned</span></span>
+          <h3><span class="i18n-de">Änderungsverlauf pro Datensatz</span><span class="i18n-en">Change history per record</span></h3>
+          <p><span class="i18n-de">Nachvollziehbar, wer wann welchen Wert geändert hat — nicht nur, dass etwas geändert wurde.</span><span class="i18n-en">Traceable who changed which value and when — not just that something changed.</span></p>
+        </div>
+        <div class="road-card">
+          <span class="road-tag mono"><span class="i18n-de">Geplant</span><span class="i18n-en">Planned</span></span>
+          <h3><span class="i18n-de">Datenqualitäts-Dashboard</span><span class="i18n-en">Data quality dashboard</span></h3>
+          <p><span class="i18n-de">Zeigt organisationsweit, welche Angaben am häufigsten fehlen.</span><span class="i18n-en">Shows organization-wide which fields are most often missing.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band" id="kontakt">
+    <div class="wrap">
+      <h2><span class="i18n-de">Bereit für einen gemeinsamen Arbeitsbereich?</span><span class="i18n-en">Ready for a shared workspace?</span></h2>
+      <p><span class="i18n-de">Amana Board ist aktuell nur auf Einladung verfügbar und für Patenschaftsorganisationen reserviert.</span><span class="i18n-en">Amana Board is currently invitation-only and reserved for sponsorship organizations.</span></p>
+      <div class="hero-ctas">
+        <a href="mailto:hallo@amanaboard.com" class="btn btn-primary">
+          <span class="i18n-de">Zugang anfragen</span><span class="i18n-en">Request access</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span><span class="i18n-de">Entwickelt von Scaled Academy für Nuvarah e.V. und weitere Patenschaftsorganisationen.</span><span class="i18n-en">Built by Scaled Academy for Nuvarah e.V. and other sponsorship organizations.</span></span>
+    <span>© 2026 Amana Board</span>
+  </div>
+</footer>
+
+<script>
+  // language toggle
+  document.querySelectorAll('.lang-toggle button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var lang = btn.getAttribute('data-lang');
+      document.documentElement.classList.toggle('lang-en', lang === 'en');
+      document.querySelectorAll('.lang-toggle button').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+    });
+  });
+
+  // scroll reveal
+  var reveals = document.querySelectorAll('.card, .road-card, .reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.12});
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('visible'); });
+  }
+</script>
+
+</body>
+</html>
