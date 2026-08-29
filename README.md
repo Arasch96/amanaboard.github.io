@@ -1,0 +1,2 @@
+# amanaboard.github.io
+Amanaboard
